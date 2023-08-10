@@ -6,12 +6,12 @@
 #              Add the each dictionary "row" to a python list "table"
 # ChangeLog (Who,When,What):
 # RRoot,1.1.2030,Created started script
-# <YOUR NAME HERE>,<DATE>,Added code to complete assignment 5
+# DZeng, 8.9.2023,Added code to complete assignment 5
 # ------------------------------------------------------------------------ #
 
 # -- Data -- #
 # declare variables and constants
-objFile = "ToDoList.txt"   # An object that represents a file
+fileName = "ToDoList.txt"   # An object that represents a file
 strData = ""  # A row of text data from the file
 dicRow = {}    # A row of data separated into elements of a dictionary {Task,Priority}
 lstTable = []  # A list that acts as a 'table' of rows
@@ -22,7 +22,13 @@ strChoice = "" # A Capture the user option selection
 # -- Processing -- #
 # Step 1 - When the program starts, load the any data you have
 # in a text file called ToDoList.txt into a python list of dictionaries rows (like Lab 5-2)
-# TODO: Add Code Here
+# Note: Assumes that the "ToDoList.txt" file exists in the same directory as script
+fileObj = open(fileName, "r")
+for line in fileObj:
+    lineData = line.split(",")
+    dicRow = {"Task":lineData[0].strip(), "Priority": lineData[1].strip()}
+    lstTable.append(dicRow)
+fileObj.close()
 
 # -- Input/Output -- #
 # Step 2 - Display a menu of choices to the user
@@ -39,21 +45,33 @@ while (True):
     print()  # adding a new line for looks
     # Step 3 - Show the current items in the table
     if (strChoice.strip() == '1'):
-        # TODO: Add Code Here
+        print("Task|Priority")
+        for entry in lstTable:
+            print(entry["Task"] + "|" + entry["Priority"])
         continue
     # Step 4 - Add a new item to the list/Table
     elif (strChoice.strip() == '2'):
-        # TODO: Add Code Here
+        taskInput = input("Enter the task: ").strip()
+        priorityInput = input("Enter the priority: ").strip()
+        dicRow = {"Task":taskInput, "Priority":priorityInput}
+        lstTable.append(dicRow)
+        print("New entry added")
         continue
     # Step 5 - Remove a new item from the list/Table
     elif (strChoice.strip() == '3'):
-        # TODO: Add Code Here
+        taskInput = input("Enter the task to be removed: ")
+        for entry in lstTable:
+            if entry["Task"] == taskInput:
+                lstTable.remove(entry)
+                print("Entry removed")
         continue
     # Step 6 - Save tasks to the ToDoToDoList.txt file
     elif (strChoice.strip() == '4'):
-        # TODO: Add Code Here
+        fileObj = open(fileName, "w")
+        for entry in lstTable:
+            fileObj.write(entry["Task"] + "," + entry["Priority"] + "\n")
+        fileObj.close()
         continue
     # Step 7 - Exit program
     elif (strChoice.strip() == '5'):
-        # TODO: Add Code Here
         break  # and Exit the program
